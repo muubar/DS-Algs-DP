@@ -1,5 +1,7 @@
 class Queue {
-  queue = [];
+  constructor() {
+    this.queue = [];
+  }
 
   enqueue(value) {
     return this.queue.push(value);
@@ -17,3 +19,8 @@ class Queue {
     return (this.queue.length === 0);
   }
 }
+
+var q = new Queue()
+q.enqueue(5);
+q.dequeue();
+module.exports = Queue;
