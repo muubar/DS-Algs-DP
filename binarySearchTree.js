@@ -113,5 +113,27 @@ class BinarySearchTree {
       return nextNode(q.dequeue());
     }
   }
+
+  depth() {
+    var maxDepth = 0;
+    recur(this.root);
+    return maxDepth;
+
+    function recur(currentNode, depth = 0) {
+      if (depth > maxDepth) maxDepth = depth;
+      if (currentNode.left) recur(currentNode.left, depth + 1)
+      if (currentNode.right) recur(currentNode.right, depth + 1)
+    }
+  }
 }
 
+var bst = new BinarySearchTree(new Node(9))
+bst.insert(4);
+bst.insert(17);
+bst.insert(3);
+bst.insert(6);
+bst.insert(22);
+bst.insert(5);
+bst.insert(7);
+bst.insert(20);
+console.log(bst.depth());
