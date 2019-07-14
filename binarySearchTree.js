@@ -43,34 +43,38 @@ class BinarySearchTree {
   delete(value, currentNode = this.root, currentNodeParent = null) {
     if (value === currentNode.value) {
       if (currentNode.left && currentNode.right) {
-        const inOrderTravArr = this.inOrderTrav();
-        const inOrderTravSuccNodeVal = inOrderTravArr[inOrderTravArr.findIndex((n) => n.value === value) + 1].value;
-        this.delete(inOrderTravSuccNodeVal);
-        currentNode.value = inOrderTravSuccNodeVal;
+        const minNodeRightSubTree = minNode(currentNode.right);
+        currentNode.value = minNodeRightSubTree.node.value;
+        deleteLeaf(minNodeRightSubTree.parnet, minNodeRightSubTree.node);
         return true;
       };
       if (currentNode.left || currentNode.right) {
         const onlyChildNode = (currentNode.left || currentNode.right);
-        currentNode.value = onlyChildNode.value;
-        return removeChild(currentNode, onlyChildNode);
+        currentNodeParent.right === currentNode ? currentNodeParent.right = onlyChildNode : currentNodeParent.left = onlyChildNode
+        return true;
       }
-      return removeChild(currentNodeParent, currentNode);
+      return deleteLeaf(currentNodeParent, currentNode);
     }
     if (value < currentNode.value) return this.delete(value, currentNode.left, currentNode);
     if (value > currentNode.value) return this.delete(value, currentNode.right, currentNode);
     return false;
 
 
-    function removeChild(parentNode, childNode) {
-      if (parentNode.left.value === childNode.value) {
-        parentNode.left = null;
+    function deleteLeaf(currentNodeParent, childNode) {
+      if (currentNodeParent.left.value === childNode.value) {
+        currentNodeParent.left = null;
         return true;
       }
-      if (parentNode.right.value === childNode.value) {
-        parentNode.right = null;
+      if (currentNodeParent.right.value === childNode.value) {
+        currentNodeParent.right = null;
         return true;
       }
       return false;
+    }
+
+    function minNode(currentNode = this.root, currentNodeParent = null) {
+      if (currentNode.left) return minNode(currentNode.left, currentNode);
+      return { node: currentNode, parnet: currentNodeParent };
     }
   }
 
@@ -126,14 +130,3 @@ class BinarySearchTree {
     }
   }
 }
-
-var bst = new BinarySearchTree(new Node(9))
-bst.insert(4);
-bst.insert(17);
-bst.insert(3);
-bst.insert(6);
-bst.insert(22);
-bst.insert(5);
-bst.insert(7);
-bst.insert(20);
-console.log(bst.depth());
