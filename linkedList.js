@@ -75,15 +75,16 @@ class LinkedList {
         this.head = currentNode.next;
         return true;
       }
-
-      while (currentNode.next) {
-        if (currentNode.next.value === value) {
-          currentNode.next = currentNode.next.next;
-          return true;
-        }
-        currentNode = currentNode.next;
-      }
-      return false;
     }
+    while (currentNode.next) {
+      if (currentNode.next.value === value) {
+        currentNode.next = currentNode.next.next;
+        if (!currentNode.next) this.tail = currentNode;
+        return true;
+      }
+      currentNode = currentNode.next;
+    }
+    return false;
   }
 }
+module.exports = LinkedList 
