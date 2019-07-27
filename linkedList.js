@@ -65,24 +65,28 @@ class LinkedList {
 
 
   delete(value) {
-    var currentNode = this.head;
+    if (this.head) {
+      var currentNode = this.head;
 
-    if (currentNode.value === value) {
-      if (this.head === this.tail) {
-        this.head = null;
-        this.tail = null;
-      } else {
-        this.head = currentNode.next;
-        return true;
+      if (currentNode.value === value) {
+        if (this.head === this.tail) {
+          this.head = null;
+          this.tail = null;
+          return true;
+        } else {
+          this.head = currentNode.next;
+          return true;
+        }
       }
-    }
-    while (currentNode.next) {
-      if (currentNode.next.value === value) {
-        currentNode.next = currentNode.next.next;
-        if (!currentNode.next) this.tail = currentNode;
-        return true;
+      while (currentNode.next) {
+        if (currentNode.next.value === value) {
+          currentNode.next = currentNode.next.next;
+          if (!currentNode.next) this.tail = currentNode;
+          return true;
+        }
+        currentNode = currentNode.next;
       }
-      currentNode = currentNode.next;
+      return false;
     }
     return false;
   }
