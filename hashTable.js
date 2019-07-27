@@ -18,8 +18,7 @@ class HashTable {
     const i = hash(value, this.SIZE_MAX);
     var currentIndexLL = this.arr[i];
     if (currentIndexLL) {
-      if (currentIndexLL.search(value)) return true;
-      currentIndexLL.add(value);
+      if (!currentIndexLL.search(value)) currentIndexLL.add(value);
       return true;
     }
     this.arr[i] = new linkedList();
@@ -37,12 +36,7 @@ class HashTable {
 
   remove(value) {
     const i = hash(value, this.SIZE_MAX);
-    if (this.arr[i]) {
-      for (var nodeVal of this.arr[i]) {
-        if (nodeVal === value) return this.arr[i].delete(value);
-      }
-      return false;
-    }
-    return false;
+    if (this.arr[i]) return this.arr[i].delete(value);
+    else return false;
   }
 }
