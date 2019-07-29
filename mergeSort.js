@@ -25,7 +25,7 @@ function mergeSort(arr) {
       arrIdx++
     }
     // decide which side is not completely consumed yet (IF ANY!)
-    const remaining = leftIdx < left.length ? left : (rightIdx < right.length ? right : null);
-    if (remaining) arr.splice(arrIdx, arr.length - arrIdx, ...remaining.slice(remaining === left ? leftIdx : rightIdx))
+    const remaining = leftIdx < left.length ? left.slice(leftIdx) : (rightIdx < right.length ? right.slice(rightIdx) : null);
+    if (remaining) arr.splice(arrIdx, arr.length - arrIdx, ...remaining)
   }
 }
