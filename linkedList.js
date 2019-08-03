@@ -27,8 +27,8 @@ class LinkedList {
 
   prepend(value) {
     const node = new LinkedListNode(value, this.head);
-    head = node;
-    if (!tail) tail = node;
+    this.head = node;
+    if (!this.tail) this.tail = node;
   }
 
 
