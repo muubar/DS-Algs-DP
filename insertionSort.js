@@ -1,7 +1,7 @@
 function insertionSort(arr) {
-  var lastSortedIdx = 1;
-  while (lastSortedIdx !== arr.length - 1) {
-    for (let i = lastSortedIdx; i < arr.length - 1; i++) {
+  var lastSortedIdx = 0;
+  while (lastSortedIdx < arr.length) {
+    for (let i = lastSortedIdx; i < arr.length; i++) {
       if (arr[i + 1] < arr[i]) insert(i + 1, i);
       lastSortedIdx++;
     }
