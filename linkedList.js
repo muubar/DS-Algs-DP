@@ -39,7 +39,7 @@ class LinkedList {
       next() {
         if (currentNode) {
           let val = {
-            value: currentNode.value,
+            value: currentNode,
             done: false
           };
           currentNode = currentNode.next;
@@ -91,4 +91,4 @@ class LinkedList {
     return false;
   }
 }
-module.exports = LinkedList 
+module.exports = LinkedList
