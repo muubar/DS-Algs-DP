@@ -1,42 +1,77 @@
-const linkedList = require("./linkedList.js");
-
-function hash(string, max) {
-  var hash = 0;
-  for (var i = 0; i < string.length; i++) {
-    hash += string.charCodeAt(i);
-  }
-  return hash % max;
+function hash(key, max) {
+  const acc = key.split("").reduce((acc, val) => {
+    return acc + val.charCodeAt(0);
+  }, 0)
+  return acc % max;
 }
 
 class HashTable {
-  constructor() {
-    this.SIZE_MAX = 4;
-    this.arr = Array(this.SIZE_MAX).fill(null);
+  constructor(size = 4) {
+    this.MAX_LENGTH = size;
+    this.buckets = Array(this.MAX_LENGTH).fill(null);
   }
 
-  add(value) {
-    const i = hash(value, this.SIZE_MAX);
-    var currentIndexLL = this.arr[i];
-    if (currentIndexLL) {
-      if (!currentIndexLL.search(value)) currentIndexLL.add(value);
-      return true;
+  set(key, value) {
+    const i = hash(key, this.MAX_LENGTH);
+    const obj = { key, value };
+    const currentBucket = this.buckets[i];
+
+    if (!currentBucket) {
+      this.buckets[i] = [obj];
+      return this.buckets[i];
     }
-    this.arr[i] = new linkedList();
-    this.arr[i].add(value);
-    return true;
+
+    for (let innerIndex = 0; innerIndex < currentBucket.length; innerIndex++) {
+      if (currentBucket[innerIndex].key === key) {
+        if (currentBucket[innerIndex].value === value) return currentBucket;
+        currentBucket[innerIndex].value = value;
+        return currentBucket;
+      }
+    }
+    currentBucket.push(obj);
+    return currentBucket;
   }
 
-  has(value) {
-    const i = hash(value, this.SIZE_MAX);
-    if (this.arr[i]) {
-      return this.arr[i].search(value);
+  get(key) {
+    const i = hash(key, this.MAX_LENGTH);
+    const currentBucket = this.buckets[i];
+
+    if (!currentBucket) {
+      return undefined;
+    }
+
+    for (let innerIndex = 0; innerIndex < currentBucket.length; innerIndex++) {
+      if (currentBucket[innerIndex].key === key) return currentBucket[innerIndex].value;
+    }
+  }
+
+  has(key) {
+    const i = hash(key, this.MAX_LENGTH);
+    const currentBucket = this.buckets[i];
+
+    if (!currentBucket) {
+      return false;
+    }
+
+    for (let innerIndex = 0; innerIndex < currentBucket.length; innerIndex++) {
+      if (currentBucket[innerIndex].key === key) return true;
     }
     return false;
   }
 
-  remove(value) {
-    const i = hash(value, this.SIZE_MAX);
-    if (this.arr[i]) return this.arr[i].delete(value);
-    else return false;
+  delete(key) {
+    const i = hash(key, this.MAX_LENGTH);
+    const currentBucket = this.buckets[i];
+
+    if (!currentBucket) {
+      return false;
+    }
+
+    for (let innerIndex = 0; innerIndex < currentBucket.length; innerIndex++) {
+      if (currentBucket[innerIndex].key === key) {
+        currentBucket.splice(innerIndex, 1);
+        return true;
+      }
+    }
   }
 }
